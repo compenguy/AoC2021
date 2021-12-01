@@ -1,18 +1,7 @@
 use anyhow::Result;
 use std::io::BufRead;
 
-fn count_larger(vals: impl Iterator<Item = u32>) -> u32 {
-    let (count, _) = vals.fold((0, std::u32::MAX), |(count, last), cur| {
-        if cur > last {
-            (count + 1, cur)
-        } else {
-            (count, cur)
-        }
-    });
-    count
-}
-
-pub(crate) fn day1<P: AsRef<std::path::Path>>(data_dir: P) -> Result<u32> {
+pub(crate) fn data<P: AsRef<std::path::Path>>(data_dir: P) -> Result<Vec<u32>> {
     let data_file = data_dir.as_ref().join("1.txt");
     let data = std::io::BufReader::new(std::fs::File::open(&data_file)?);
     let numeric_data = data.lines().map(|s_res| {
@@ -21,5 +10,30 @@ pub(crate) fn day1<P: AsRef<std::path::Path>>(data_dir: P) -> Result<u32> {
             .parse::<u32>()
             .unwrap_or_else(|_| panic!("data format error in {}", data_file.display()))
     });
-    Ok(count_larger(numeric_data))
+    Ok(numeric_data.collect())
+}
+
+pub(crate) fn star1(data: &[u32]) -> u32 {
+    data.windows(2).fold(0, |count, window| {
+        if window[1] > window[0] {
+            count + 1
+        } else {
+            count
+        }
+    })
+}
+
+pub(crate) fn star2(data: &[u32]) -> u32 {
+    let (count, _) = data.windows(3).fold(
+        (0u32, std::u32::MAX),
+        |(count, last_sum), window: &[u32]| {
+            let new_sum = window[0] + window[1] + window[2];
+            if new_sum > last_sum {
+                (count + 1, new_sum)
+            } else {
+                (count, new_sum)
+            }
+        },
+    );
+    count
 }
