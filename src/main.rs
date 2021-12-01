@@ -3,6 +3,8 @@ use clap::{app_from_crate, crate_name, crate_version};
 use flexi_logger::{colored_default_format, detailed_format, Logger};
 use log::debug;
 
+mod day1;
+
 fn init_logging(matches: &clap::ArgMatches) -> Result<()> {
     // Default log-level is Off, and goes up with each debug flag
     let crate_log_level = match matches.occurrences_of("debug") {
@@ -78,6 +80,10 @@ fn main() -> Result<()> {
 
     init_logging(&matches)?;
     debug!("{} version {}", crate_name!(), crate_version!());
+
+    let data_dir = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("data");
+    let count = day1::day1(data_dir)?;
+    println!("[Star 1] Count of increasing depths: {}", count);
 
     Ok(())
 }
