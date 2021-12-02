@@ -1,7 +1,5 @@
 # [Advent of Code 2021](https://adventofcode.com/2021)
 
-## Day 1 Developer Log
-
 ### Setup
 
 I've never done one of these before, so I'm not sure what to expect.
@@ -9,6 +7,8 @@ I've never done one of these before, so I'm not sure what to expect.
 Used `cargo` to create a new project, it initialized the git repo for me.  I
 copied a bit of boilerplate command line argument handling and debug logging
 from another project, just to be ready.
+
+## Day 1 Developer Log
 
 ### First Star
 
@@ -56,3 +56,33 @@ the last sum to `std::u32::MAX`. By definition, nothing is higher than that, so
 we see the right behavior. This spares me having another state variable just
 for tracking whether we're in the first iteration or not, and paying the cost
 of that test every subsequent iteration.
+
+## Day 2 Developer Log
+
+### First Star
+
+More complex data file - this looks fun. Going to use a simple split-on-space
+scheme, parsing the `&str` on the right into a number, and converting supported
+left-side `&str`s into a particular enum value.
+
+Looking a little deeper into what I'm doing with this data, rather than a
+straight-up enum-value-for-each-input-value, I'm going to map `up` and `down`
+to the same enum value (`Depth`), and negate the argument to it in the `up`
+case.
+
+By implementing the TryFrom trait on my enum, I get very simple conversion from
+a line of text into a value in my enumeration, with pretty clean error handling
+should there be a problem with my logic or the input.
+
+Straightforward application of iterator combinators to accumulate the x and y
+from the `Travel::Forward(dx)` and `Travel::Depth(dy)`, multiply them together
+to calculate the "travel distance" (net-depth times forward distance), et voilà!
+
+### Second Star
+
+Oh my, this is almost embarassingly simple after doing up the first one.
+
+Augment the accumulator in my `fold()` from `(x, y)` to `(x, y, aim)`, update
+the match cases accordingly, and the result falls perfectly out. I actually
+didn't trust that it was truly that easy so I went and double-checked
+everything. Perfect.
