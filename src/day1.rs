@@ -1,16 +1,18 @@
 use anyhow::Result;
 use std::io::BufRead;
 
+const DATA_FILE: &str = "1.txt";
+
 pub(crate) fn data<P: AsRef<std::path::Path>>(data_dir: P) -> Result<Vec<u32>> {
-    let data_file = data_dir.as_ref().join("1.txt");
+    let data_file = data_dir.as_ref().join(DATA_FILE);
     let data = std::io::BufReader::new(std::fs::File::open(&data_file)?);
-    let numeric_data = data.lines().map(|s_res| {
-        s_res
-            .unwrap_or_else(|_| panic!("file I/O error in {}", data_file.display()))
-            .parse::<u32>()
-            .unwrap_or_else(|_| panic!("data format error in {}", data_file.display()))
-    });
-    Ok(numeric_data.collect())
+    data.lines()
+        .map(|s_res| {
+            s_res
+                .map_err(|e| e.into())
+                .and_then(|s| s.parse::<u32>().map_err(|e| e.into()))
+        })
+        .collect()
 }
 
 pub(crate) fn star1(data: &[u32]) -> u32 {
