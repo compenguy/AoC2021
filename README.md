@@ -94,3 +94,27 @@ sample data provided for each day as a test to validate their solution. That
 seems like an amazing idea, so I'm adding in tests for the previous days, and
 I intend to follow that pattern going forward. Also, super happy with how I
 divided up my functions because it made the tests really simple.
+
+### First Star
+
+Well, this one threw me off, largely because at first I missed the fact that
+the the actual dataset didn't use the same number of bits as the sample
+dataset. So after I got the test working, I had to go back and refactor my
+algorithm to accommodate an arbitrary number of bits to operate on.
+
+### Second Star
+
+Ok, gotta admit. This one took me a long time to really grok what was being
+asked. Once I figured it out, it took me a few iterations to get my solution
+into a form I was happy with, performance- and clarity-wise.
+
+My first pass at a solution for this relied on sorting. Rust's `sort_by_key()`
+and `partition_point()` along with the slicing semantics, made a recursive
+algorithm pretty efficient.
+
+Once I saw that with each recursion I was 'locking' a new bit in place, I
+realized that there's an O(n * log(n)) solution (as opposed to the
+O(n log^2(n)) solution I'd originally gone with), and I'm doing something very
+similar to what I did in the first star, but instead of counting the bit among
+all the array entries, I'm counting only among the ones with the pattern of
+bits that were 'locked in' previously.
