@@ -4,6 +4,7 @@ use std::io::BufRead;
 
 const DATA_FILE: &str = "2.txt";
 
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub(crate) enum Travel {
     Forward(i32),
     Depth(i32),
@@ -58,4 +59,45 @@ pub(crate) fn star2(data: &[Travel]) -> u32 {
             Travel::Depth(dy) => (x, y, aim + dy),
         });
     (x * y).wrapping_abs() as u32
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::convert::TryFrom;
+
+    const SAMPLE_DATA: [&'static str; 6] = [
+        "forward 5",
+        "down 5",
+        "forward 8",
+        "up 3",
+        "down 8",
+        "forward 2",
+    ];
+
+    const SAMPLE_DATA_CONVERTED: [Travel; 6] = [
+        Travel::Forward(5),
+        Travel::Depth(5),
+        Travel::Forward(8),
+        Travel::Depth(-3),
+        Travel::Depth(8),
+        Travel::Forward(2),
+    ];
+
+    #[test]
+    fn test_travel_conversion() {
+        for (inp, out) in SAMPLE_DATA.iter().zip(SAMPLE_DATA_CONVERTED.iter()) {
+            assert_eq!(Travel::try_from(*inp).unwrap(), *out);
+        }
+    }
+
+    #[test]
+    fn test_star1() {
+        assert_eq!(star1(&SAMPLE_DATA_CONVERTED), 150);
+    }
+
+    #[test]
+    fn test_star2() {
+        assert_eq!(star2(&SAMPLE_DATA_CONVERTED), 900);
+    }
 }

@@ -39,3 +39,20 @@ pub(crate) fn star2(data: &[u32]) -> u32 {
     );
     count
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    const SAMPLE_DATA: [u32; 10] = [ 199, 200, 208, 210, 200, 207, 240, 269, 260, 263 ];
+
+    #[test]
+    fn test_star1() {
+        assert_eq!(star1(&SAMPLE_DATA), 7);
+    }
+
+    #[test]
+    fn test_star2() {
+        assert_eq!(star2(&SAMPLE_DATA), 5);
+    }
+}

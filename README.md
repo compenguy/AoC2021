@@ -86,3 +86,11 @@ Augment the accumulator in my `fold()` from `(x, y)` to `(x, y, aim)`, update
 the match cases accordingly, and the result falls perfectly out. I actually
 didn't trust that it was truly that easy so I went and double-checked
 everything. Perfect.
+
+## Day 3 Developer Log
+
+Reading a reddit post in `r/rust` about AoC I saw someone who was using the
+sample data provided for each day as a test to validate their solution. That
+seems like an amazing idea, so I'm adding in tests for the previous days, and
+I intend to follow that pattern going forward. Also, super happy with how I
+divided up my functions because it made the tests really simple.
