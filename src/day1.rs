@@ -44,7 +44,7 @@ pub(crate) fn star2(data: &[u32]) -> u32 {
 mod tests {
     use super::*;
 
-    const SAMPLE_DATA: [u32; 10] = [ 199, 200, 208, 210, 200, 207, 240, 269, 260, 263 ];
+    const SAMPLE_DATA: [u32; 10] = [199, 200, 208, 210, 200, 207, 240, 269, 260, 263];
 
     #[test]
     fn test_star1() {
