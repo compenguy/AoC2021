@@ -3,6 +3,7 @@ use anyhow::Result;
 mod day1;
 mod day2;
 mod day3;
+mod day4;
 
 fn main() -> Result<()> {
     let data_dir = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("data");
@@ -31,6 +32,14 @@ fn main() -> Result<()> {
 
     let star2_count = day3::star2(&mut day3_data);
     println!("[Star 2] Life support: {}", star2_count);
+
+    // Day 4
+    let (called, mut boards) = day4::data(&data_dir)?;
+    let star1_count = day4::star1(&called, &mut boards);
+    println!("[Star 1] Bingo high score: {}", star1_count);
+
+    let star2_count = day4::star2(&called, &mut boards);
+    println!("[Star 2] Bingo low score: {}", star2_count);
 
     Ok(())
 }

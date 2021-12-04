@@ -118,3 +118,41 @@ O(n log^2(n)) solution I'd originally gone with), and I'm doing something very
 similar to what I did in the first star, but instead of counting the bit among
 all the array entries, I'm counting only among the ones with the pattern of
 bits that were 'locked in' previously.
+
+## Day 4 Developer Log
+
+### First Star
+
+In many ways this is a lot like the tic-tac-toe game I'd made in rust
+previously. This biggest wrinkle is multiple boards and finding the
+first highest scoring board among multiple.
+
+Oops... spoke too soon. Hmmm... When I'm doing line-and-space splitting for
+parsing the board numbers, a String is being produced in the iterator, and then
+I'm calling `split(' ')` on that String, which produces `&str`, but that `&str`
+references a String that's being dropped during this iteration. Unclear why
+convert the `&str` to an owned `String` doesn't resolve the issue
+(`s.to_owned()) but `collect()`ing the iterator before this step and then
+iterating over `&String`s totally fixes it for me.
+
+Also, got my first taste of the `inspect()` iterator combinator. Very nice for
+debugging into the iterator pipeline.
+
+### Second Star
+
+This problem looks very easy at first. Instead of getting the max score from
+each round, you get the min score. But you need to keep going in rounds because
+if a board wins in a later round, then its score should be even lower. Oh...
+but not necessarily, because the product of the remaining numbers could still
+be higher than that of an earlier completeing board. And how many rounds do you
+go? Can you choose not to call bingo on a board that has completed? If that's
+the case, the lowest score possible is 0, because you just let all the numbers
+get called. Pretty sure that's not what's intended.
+
+So really all I need is keep the lowest score for this round, replacing the
+lowest score from the previous round, until all the boards have won.
+
+In the course of implementing this, I did some refactoring to create a cheap
+test for whether a board has already won, so that I can stop iteration as
+soon as all boards have won, rather than continuing to call numbers after
+all the boards have already finished.
