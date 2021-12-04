@@ -4,7 +4,7 @@ use std::io::BufRead;
 
 const DATA_FILE: &str = "4.txt";
 
-pub(crate) fn data<P: AsRef<std::path::Path>>(data_dir: P) -> Result<(Vec<u8>, Vec<Board>)> {
+pub fn data<P: AsRef<std::path::Path>>(data_dir: P) -> Result<(Vec<u8>, Vec<Board>)> {
     let data_file = data_dir.as_ref().join(DATA_FILE);
     let mut data = std::io::BufReader::new(std::fs::File::open(&data_file)?);
     let mut line = String::with_capacity(50);
@@ -58,7 +58,7 @@ fn parse_board(data: &mut std::io::BufReader<std::fs::File>) -> Result<Option<Bo
 }
 
 #[derive(Debug, Clone)]
-pub(crate) struct Board {
+pub struct Board {
     cells: HashMap<u8, (u8, u8, bool)>,
     has_won: bool,
 }
@@ -80,7 +80,7 @@ impl std::convert::From<&[u8]> for Board {
 }
 
 impl Board {
-    pub(crate) fn call(&mut self, number: u8) -> Option<u32> {
+    pub fn call(&mut self, number: u8) -> Option<u32> {
         if self.has_won {
             return None;
         }
@@ -119,7 +119,7 @@ impl Board {
         }
     }
 
-    pub(crate) fn has_won(&self) -> bool {
+    pub fn has_won(&self) -> bool {
         self.has_won
     }
 
@@ -133,7 +133,7 @@ impl Board {
     }
 }
 
-pub(crate) fn star1(called: &[u8], boards: &mut [Board]) -> u32 {
+pub fn star1(called: &[u8], boards: &mut [Board]) -> u32 {
     let mut max_score = 0;
     for number in called {
         max_score = boards
@@ -147,7 +147,7 @@ pub(crate) fn star1(called: &[u8], boards: &mut [Board]) -> u32 {
     max_score
 }
 
-pub(crate) fn star2(called: &[u8], boards: &mut [Board]) -> u32 {
+pub fn star2(called: &[u8], boards: &mut [Board]) -> u32 {
     let mut min_score: Option<u32> = None;
     for number in called {
         if boards.iter().all(|b| b.has_won()) {

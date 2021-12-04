@@ -3,7 +3,7 @@ use std::io::BufRead;
 
 const DATA_FILE: &str = "3.txt";
 
-pub(crate) fn data<P: AsRef<std::path::Path>>(data_dir: P) -> Result<Vec<u32>> {
+pub fn data<P: AsRef<std::path::Path>>(data_dir: P) -> Result<Vec<u32>> {
     let data_file = data_dir.as_ref().join(DATA_FILE);
     let data = std::io::BufReader::new(std::fs::File::open(&data_file)?);
     data.lines()
@@ -19,7 +19,7 @@ fn bit_set(word: u32, index: u8) -> bool {
     (word & (1 << (31 - index))) != 0
 }
 
-pub(crate) fn power_consumption(data: &[u32], bit_width: u8) -> (u32, u32) {
+pub fn power_consumption(data: &[u32], bit_width: u8) -> (u32, u32) {
     let offset: usize = (32 - bit_width).into();
     // count how many 1s we see in a particular bit position,
     // for all bit positions
@@ -47,7 +47,7 @@ pub(crate) fn power_consumption(data: &[u32], bit_width: u8) -> (u32, u32) {
     (epsilon, gamma)
 }
 
-pub(crate) fn star1(data: &[u32]) -> u64 {
+pub fn star1(data: &[u32]) -> u64 {
     let (gamma, epsilon) = power_consumption(data, 12);
     (gamma as u64) * (epsilon as u64)
 }
@@ -106,7 +106,7 @@ fn search(data: &mut [u32], bit_offset: u8, greater: bool) -> u32 {
     search(winner, bit_offset + 1, greater)
 }
 
-pub(crate) fn star2(data: &mut [u32]) -> u64 {
+pub fn star2(data: &mut [u32]) -> u64 {
     let bit_offset = 32 - 12;
 
     // Sort the array by whether the first bit of interest

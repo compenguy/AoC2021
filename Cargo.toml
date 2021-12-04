@@ -10,3 +10,10 @@ repository = "https://github.com/compenguy/AoC2021"
 
 [dependencies]
 anyhow = "1"
+
+[dev-dependencies]
+criterion = { version = "0.3", features = ["html_reports"] }
+
+[[bench]]
+name = "aocbench"
+harness = false

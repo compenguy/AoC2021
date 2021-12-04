@@ -1,9 +1,6 @@
 use anyhow::Result;
 
-mod day1;
-mod day2;
-mod day3;
-mod day4;
+use aoc2021::{day1, day2, day3, day4};
 
 fn main() -> Result<()> {
     let data_dir = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("data");
