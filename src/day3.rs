@@ -52,6 +52,7 @@ pub(crate) fn star1(data: &[u32]) -> u64 {
     (gamma as u64) * (epsilon as u64)
 }
 
+#[allow(dead_code)]
 fn search_linear(data: &[u32], bit_pattern: u32, bit_offset: u8, greater: bool) -> u32 {
     if bit_offset == 32 || data.len() == 1 {
         return bit_pattern;
@@ -78,7 +79,7 @@ fn search_linear(data: &[u32], bit_pattern: u32, bit_offset: u8, greater: bool) 
     search_linear(data, new_bit_pattern, bit_offset + 1, greater)
 }
 
-/*
+#[allow(dead_code)]
 fn search(data: &mut [u32], bit_offset: u8, greater: bool) -> u32 {
     // Recursion terminating condition - we've found the entry with
     // either the most common bit for its field, or the least common
@@ -104,7 +105,6 @@ fn search(data: &mut [u32], bit_offset: u8, greater: bool) -> u32 {
     winner.sort_unstable_by_key(|x| bit_set(*x, bit_offset + 1));
     search(winner, bit_offset + 1, greater)
 }
-*/
 
 pub(crate) fn star2(data: &mut [u32]) -> u64 {
     let bit_offset = 32 - 12;
