@@ -157,7 +157,7 @@ test for whether a board has already won, so that I can stop iteration as
 soon as all boards have won, rather than continuing to call numbers after
 all the boards have already finished.
 
-## Day 4 Developer Log
+## Day 5 Developer Log
 
 ### First Star
 
@@ -189,3 +189,28 @@ Yep - counting up all the overlapping lines, not just the horizontal or
 vertical ones. I just duplicated my top-level logic for the first star,
 removing the filter selecting for just the horizontal and vertical lines.
 
+## Day 6 Developer Log
+
+### First Star
+
+They said "simulate", so I wrote a simulator. I thought I was being clever
+implementing this as a delta queue. An entry in the queue for each fish.
+
+But my delta queue got overwhelmed rather quickly with all the insertions we
+were doing. Simulating for 80 days got a bit out of hand.
+
+I thought "I should fold together all the fish with the same count" at which
+point I quickly reduced the problem to an array of buckets for fish of each
+"age". A count of how many fish for each age, and we're done.
+
+### Second Star
+
+Running the simulation for 256 days was pretty trivial at this point. No longer
+iterating over each fish with each day, and doing a bunch of insertions,
+there's only 9 values to update, one for each quantity of time remaining (0-8).
+
+After I submitted my answer, I came up with a minor refinement, using a
+`VecDeque` to handle the rotation of ages each day. Pop the reproducing ones
+off the front, push that count onto the back as the new ones, and add that
+same number into slot 6 in the array for re-introducing the original ones. Now
+the `tick()` function is really clean and readable.

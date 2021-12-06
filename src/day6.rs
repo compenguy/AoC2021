@@ -1,16 +1,19 @@
 use anyhow::Result;
+use std::collections::VecDeque;
 use std::io::BufRead;
 
 const DATA_FILE: &str = "6.txt";
 
 #[derive(Debug, Clone)]
 struct FishPond {
-    pub fish: Vec<u64>,
+    pub fish: VecDeque<u64>,
 }
 
 impl std::convert::From<&[u8]> for FishPond {
     fn from(data: &[u8]) -> Self {
-        let mut pond = FishPond { fish: vec![0; 10] };
+        let mut pond = FishPond {
+            fish: VecDeque::from(vec![0; 9]),
+        };
 
         for val in data {
             pond.fish[*val as usize] += 1;
@@ -21,17 +24,12 @@ impl std::convert::From<&[u8]> for FishPond {
 
 impl FishPond {
     fn tick(&mut self) {
-        let splitting = self.fish[0];
-        self.fish[0] = self.fish[1];
-        self.fish[1] = self.fish[2];
-        self.fish[2] = self.fish[3];
-        self.fish[3] = self.fish[4];
-        self.fish[4] = self.fish[5];
-        self.fish[5] = self.fish[6];
-        self.fish[6] = self.fish[7];
-        self.fish[7] = self.fish[8];
-        self.fish[6] += splitting;
-        self.fish[8] = splitting;
+        assert_eq!(self.fish.len(), 9);
+        if let Some(splitting) = self.fish.pop_front() {
+            self.fish[6] += splitting;
+            self.fish.push_back(splitting);
+        }
+        assert_eq!(self.fish.len(), 9);
     }
 
     fn count(&self) -> u64 {
