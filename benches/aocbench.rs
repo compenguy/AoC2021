@@ -1,4 +1,4 @@
-use aoc2021::{day1, day2, day3, day4};
+use aoc2021::{day1, day2, day3, day4, day5};
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
 
 fn get_data_dir() -> std::path::PathBuf {
@@ -72,11 +72,30 @@ fn day4_benchmark(c: &mut Criterion) {
         b.iter(|| day4::star2(black_box(&called), black_box(&mut boards.clone())))
     });
 }
+
+fn day5_benchmark(c: &mut Criterion) {
+    let data_dir = get_data_dir();
+
+    c.bench_function("day 5 setup", |b| {
+        b.iter(|| day5::data(black_box(&data_dir)))
+    });
+    let day5_data = day5::data(&data_dir).expect("Programming error");
+
+    c.bench_function("day 5 star 1", |b| {
+        b.iter(|| day5::star1(black_box(&day5_data)))
+    });
+
+    c.bench_function("day 5 star 2", |b| {
+        b.iter(|| day5::star2(black_box(&mut day5_data.clone())))
+    });
+}
+
 criterion_group!(
     benches,
     day1_benchmark,
     day2_benchmark,
     day3_benchmark,
-    day4_benchmark
+    day4_benchmark,
+    day5_benchmark,
 );
 criterion_main!(benches);

@@ -156,3 +156,36 @@ In the course of implementing this, I did some refactoring to create a cheap
 test for whether a board has already won, so that I can stop iteration as
 soon as all boards have won, rather than continuing to call numbers after
 all the boards have already finished.
+
+## Day 4 Developer Log
+
+### First Star
+
+So, Rust got in my way a little bit here. On two separate occasions I tried
+using a feature that's only available in nightly, missing the little warning
+info box underneath the function name. And finally, there's no way to generate
+a `Range` that counts backwards, so I had to jump through some hoops with
+running the range through the `rev()` iterator combinator, which is less than
+ideal from a performance and memory perspective. Even worse was the first
+indication I found that `Range`s don't count backwards was when my tests ran
+and produced a sum less than the example.
+
+I also started implementing this thinking that it meant that all endpoint pairs
+formed only horizontal or vertical lines, so my logic did weird things with the
+45-degree lines. Once I realized that, I had a pretty solid idea what the
+second star was going to be, and fixing that logic bug pretty much handed me
+the solution for the second star.
+
+I like my solution for scoring the field, too. I iterate over all points in all
+the lines, building up a hashmap tying points to scores. Getting the final
+count then was super easy - barely an inconvenience. Iterate over values, apply
+a combinator that filters for values greater than 2, then apply the `count()`
+combinator. Also, the `inspect()` combinator is so cool for debugging that
+there's no chance I'll forget about it in the future.
+
+### Second Star
+
+Yep - counting up all the overlapping lines, not just the horizontal or
+vertical ones. I just duplicated my top-level logic for the first star,
+removing the filter selecting for just the horizontal and vertical lines.
+

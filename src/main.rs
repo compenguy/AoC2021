@@ -1,6 +1,6 @@
 use anyhow::Result;
 
-use aoc2021::{day1, day2, day3, day4};
+use aoc2021::{day1, day2, day3, day4, day5};
 
 fn main() -> Result<()> {
     let data_dir = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("data");
@@ -37,6 +37,24 @@ fn main() -> Result<()> {
 
     let star2_count = day4::star2(&called, &mut boards);
     println!("[Star 2] Bingo low score: {}", star2_count);
+
+    // Day 5
+    let ranges = day5::data(&data_dir)?;
+    let star1_count = day5::star1(&ranges);
+    println!(
+        "[Star 1] Points with normal overlapping ranges: {}",
+        star1_count
+    );
+
+    let star2_count = day5::star2(&ranges);
+    println!(
+        "[Star 1] Points with any overlapping ranges: {}",
+        star2_count
+    );
+    /*
+    let star2_count = day5::star2(&called, &mut boards);
+    println!("[Star 2] Bingo low score: {}", star2_count);
+    */
 
     Ok(())
 }
