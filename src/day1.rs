@@ -16,28 +16,16 @@ pub fn data<P: AsRef<std::path::Path>>(data_dir: P) -> Result<Vec<u32>> {
 }
 
 pub fn star1(data: &[u32]) -> u32 {
-    data.windows(2).fold(0, |count, window| {
-        if window[1] > window[0] {
-            count + 1
-        } else {
-            count
-        }
-    })
+    data.windows(2)
+        .filter(|window| window[1] > window[0])
+        .count() as u32
 }
 
 pub fn star2(data: &[u32]) -> u32 {
-    let (count, _) = data.windows(3).fold(
-        (0u32, std::u32::MAX),
-        |(count, last_sum), window: &[u32]| {
-            let new_sum = window[0] + window[1] + window[2];
-            if new_sum > last_sum {
-                (count + 1, new_sum)
-            } else {
-                (count, new_sum)
-            }
-        },
-    );
-    count
+    let sums: Vec<u32> = data.windows(3).map(|d| d.iter().sum()).collect();
+    sums.windows(2)
+        .filter(|window| window[1] > window[0])
+        .count() as u32
 }
 
 #[cfg(test)]
