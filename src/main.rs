@@ -1,6 +1,6 @@
 use anyhow::Result;
 
-use aoc2021::{day1, day2, day3, day4, day5, day6, day7};
+use aoc2021::{day1, day2, day3, day4, day5, day6, day7, day8};
 
 fn main() -> Result<()> {
     let data_dir = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("data");
@@ -63,10 +63,18 @@ fn main() -> Result<()> {
     // Day 7
     let data = day7::data(&data_dir)?;
     let star1_count = day7::star1(&data);
-    println!("[Star 1] Foo: {}", star1_count);
+    println!("[Star 1] Fuel usage: {}", star1_count);
 
     let star2_count = day7::star2(&data);
-    println!("[Star 2] Foo: {}", star2_count);
+    println!("[Star 2] Fuel usage: {}", star2_count);
+
+    // Day 8
+    let data = day8::data(&data_dir)?;
+    let star1_count = day8::star1(data.as_ref());
+    println!("[Star 1] Unique light patterns: {}", star1_count);
+
+    let star2_count = day8::star2(data.as_ref());
+    println!("[Star 2] Display sum: {}", star2_count);
 
     Ok(())
 }

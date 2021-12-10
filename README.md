@@ -214,3 +214,53 @@ After I submitted my answer, I came up with a minor refinement, using a
 off the front, push that count onto the back as the new ones, and add that
 same number into slot 6 in the array for re-introducing the original ones. Now
 the `tick()` function is really clean and readable.
+
+## Day 7 Developer Log
+
+### First Star
+
+First step was to come up with a scoring function that takes the data set and a
+target point, and assigns a score to that solution. Next, characterize the
+function output. Moving from low to high target, it declines to the minimum,
+then rises.
+
+So in my score optimizer, I take a sample of values, and find the set of values
+that have a negative delta then a positive delta (e.g. \./), because I know
+that range contains the optimum value.
+
+I could do this as a recursive process, continually sampling, and then "zooming
+in", but these problems are taking longer each day, so rather than optimize my
+code further, I'm just going to iterate over all the values in this subset and
+keep the one with the best score.
+
+### Second Star
+
+Oh, neat.  Write a new scoring function, later rinse repeat.
+
+## Day 8 Developer Log
+
+### First Star
+
+Hmph. Today's problem looks a bit scary. Not this first part, but I have a
+pretty solid guess what they'll have us doing for the second star.
+
+This step is pretty easy, and can be trivially written with iterator
+combinators.
+
+### Second Star
+
+Yep. Ugh. Well, ok - I'll use HashSets and HashMaps and do set operations to...
+nope. HashSet can't be a key to a HashMap. I suppose that makes sense. Hmmm...
+
+Ok. I'll skip the HashSet to track which wiress are active, and I'll model it
+as just bits in a bitset. I can implement set operations on top of my wrapper
+type and I can reuse pretty much all of my deductive logic from when I tried
+using the HashSet. That reads a whole lot nicer, and probably performs a good
+bit better with lower memory usage.
+
+I'm fairly happy with my final solution. I should probably remove the digits
+I've already figured out from my `digits` HashSet (a cheap operation that
+keeps me from continually re-iterating over digits I already know to discover
+the next known one), but as I said yesterday, these problems are taking more
+time.
+
