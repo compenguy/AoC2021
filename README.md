@@ -264,3 +264,14 @@ keeps me from continually re-iterating over digits I already know to discover
 the next known one), but as I said yesterday, these problems are taking more
 time.
 
+## Day 9 Developer Log
+
+### First Star
+
+Looks pretty simple.
+
+### Second Star
+
+Also not bad. I did need to go back and make sure my recursive basin expansion
+function didn't attempt to re-evaluate points it had already added, but that
+was a fairly obvious and simple fix.  Otherwise, easy peasy.
