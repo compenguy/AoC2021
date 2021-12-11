@@ -1,6 +1,6 @@
 use anyhow::Result;
 
-use aoc2021::{day1, day2, day3, day4, day5, day6, day7, day8, day9};
+use aoc2021::{day1, day10, day2, day3, day4, day5, day6, day7, day8, day9};
 
 fn main() -> Result<()> {
     let data_dir = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("data");
@@ -84,6 +84,14 @@ fn main() -> Result<()> {
 
     let star2_count = day9::star2(data.as_ref());
     println!("[Star 2] Basin size product: {}", star2_count);
+
+    // Day 10
+    let data = day10::data(&data_dir)?;
+    let star1_count = day10::star1(data.as_ref());
+    println!("[Star 1] Parse error score: {}", star1_count);
+
+    let star2_count = day10::star2(data.as_ref());
+    println!("[Star 2] Parse completion score: {}", star2_count);
 
     Ok(())
 }

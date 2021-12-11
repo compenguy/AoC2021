@@ -275,3 +275,20 @@ Looks pretty simple.
 Also not bad. I did need to go back and make sure my recursive basin expansion
 function didn't attempt to re-evaluate points it had already added, but that
 was a fairly obvious and simple fix.  Otherwise, easy peasy.
+
+## Day 10 Developer Log
+
+### First Star
+
+Prime opportunity for a stack. I've done parsing like this before.
+
+### Second Star
+
+Well, we've already got the data for the completions in our stack from the
+part. We just map them to their corresponding close tags, and append it to
+the original string, right? Ooops... play them back in reverse.
+
+Also, very fun convert from the `Option<mismatched byte>` that I used in the
+first part, to a `Result<completed string, mismatched byte>`. Made it very easy
+to reuse the logic for the first part, but to filter out bad strings, instead
+of filtering for them. I'm really happy about how that turned out.
