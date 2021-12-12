@@ -1,6 +1,6 @@
 use anyhow::Result;
 
-use aoc2021::{day1, day10, day2, day3, day4, day5, day6, day7, day8, day9};
+use aoc2021::{day1, day10, day11, day2, day3, day4, day5, day6, day7, day8, day9};
 
 fn main() -> Result<()> {
     let data_dir = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("data");
@@ -92,6 +92,14 @@ fn main() -> Result<()> {
 
     let star2_count = day10::star2(data.as_ref());
     println!("[Star 2] Parse completion score: {}", star2_count);
+
+    // Day 11
+    let data = day11::data(&data_dir)?;
+    let star1_count = day11::star1(data.clone());
+    println!("[Star 1] Flashes after 100 steps: {}", star1_count);
+
+    let star2_count = day11::star2(data);
+    println!("[Star 2] Synchronization time: {}", star2_count);
 
     Ok(())
 }

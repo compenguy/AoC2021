@@ -292,3 +292,18 @@ Also, very fun convert from the `Option<mismatched byte>` that I used in the
 first part, to a `Result<completed string, mismatched byte>`. Made it very easy
 to reuse the logic for the first part, but to filter out bad strings, instead
 of filtering for them. I'm really happy about how that turned out.
+
+## Day 11 Developer Log
+
+### First Star
+
+State tracking was a bit tricky with this one. Had to keep track of which ones
+I'd already recorded as having flashed. More than that, I also needed to keep
+track of which ones that flashed I'd already updated the neighbors for, and
+which ones I still needed to. Once I had the state tracking in place, the rest
+just came together.
+
+### Second Star
+
+Great, now we just run the steps until the number of lights flashed in that
+step equals the size of our dataset. Super easy, barely an inconvenience.
