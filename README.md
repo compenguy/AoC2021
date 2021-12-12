@@ -307,3 +307,25 @@ just came together.
 
 Great, now we just run the steps until the number of lights flashed in that
 step equals the size of our dataset. Super easy, barely an inconvenience.
+
+## Day 12 Developer Log
+
+### First Star
+
+Maze solver with a twist. I initially started out modelling this with nodes and
+edges, but I decided to go back and do an adjacency list. The special handling
+around `start` and `end` nodes, and "minor" nodes (lowercase nodes that can only
+be visited once) added some complexity, but not really difficulty.
+
+Also got to implement FromIterator on my Maze struct for the parsing, which was
+new and kinda cool.
+
+### Second Star
+
+And another twist. Add a parameter for whether we've already revisited a
+`minor` node or not, and keep a HashSet of completed paths so that I don't
+accidentally recount a solution. Also added a bit more special logic around
+`start` and `end` to prevent them from being treated as a `minor` node for
+revisit purposes. Essentially, all adjacencies get added in as two-way
+adjacencies, except for `start` and `end` -- `start` is never on the target end
+of an adjacency and `end` never has any targets in its adjacencies.
