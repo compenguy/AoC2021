@@ -329,3 +329,22 @@ accidentally recount a solution. Also added a bit more special logic around
 revisit purposes. Essentially, all adjacencies get added in as two-way
 adjacencies, except for `start` and `end` -- `start` is never on the target end
 of an adjacency and `end` never has any targets in its adjacencies.
+
+## Day 13 Developer Log
+
+### First Star
+
+Only get the first iteration? It looks like I'll be able to have a working
+solution for part 2 if my part 1 passes the tests.
+
+Reflecting and deduping points? This sounds like a job for a `HashSet<(x, y)>`.
+
+Super easy, barely an inconvenience. Except that I only had time to start it
+then didn't have time again for several days. But otherwise, yeah, neat.
+
+### Second Star
+
+Oh, not the count, but actually render. Well, I'll just get the bounding box for
+the points by using the little-used `max_by_key()` method on `HashSet`s, and
+iterate over all the points printing out ` ` if the point doesn't exist in the
+`HashSet` of points, and printing out `#` if it does.
