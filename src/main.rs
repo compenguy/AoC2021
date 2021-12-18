@@ -1,6 +1,8 @@
 use anyhow::Result;
 
-use aoc2021::{day1, day10, day11, day12, day13, day2, day3, day4, day5, day6, day7, day8, day9};
+use aoc2021::{
+    day1, day10, day11, day12, day13, day14, day2, day3, day4, day5, day6, day7, day8, day9,
+};
 
 fn main() -> Result<()> {
     let data_dir = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("data");
@@ -117,5 +119,14 @@ fn main() -> Result<()> {
 
     let star2_count = day13::star2((points, &folds));
     println!("[Star 2] Points after all folds: {}", star2_count);
+
+    // Day 14
+    let data = day14::data(&data_dir);
+    let (polymer, insertions) = day14::parse(data);
+    let star1_count = day14::star1(&polymer, &insertions);
+    println!("[Star 1] Polymer score after 10 steps: {}", star1_count);
+
+    let star2_count = day14::star2(&polymer, &insertions);
+    println!("[Star 2] Polymer score after 40 steps: {}", star2_count);
     Ok(())
 }

@@ -348,3 +348,40 @@ Oh, not the count, but actually render. Well, I'll just get the bounding box for
 the points by using the little-used `max_by_key()` method on `HashSet`s, and
 iterate over all the points printing out ` ` if the point doesn't exist in the
 `HashSet` of points, and printing out `#` if it does.
+
+## Day 14 Developer Log
+
+### First Star
+
+This one is... different. I started down a path of tracking only pairs, then
+backtracked because I thought it was getting unnecessarily complex. So I took
+the naive route and just generated a new string from the old one.
+
+It worked fine for this part.
+
+### Second Star
+
+Oh. By about iteration 24, the time is just crazy. Yeah, so I had to rethink it.
+It didn't come easy, but I got there eventually.
+
+The whole string is just a collection of pairs. Whenever you do an insertion,
+you split the pair and add a character. You destroy a pair, and create two new
+ones.
+
+So I can have a dictionary that tracks how many of each pair there are. So each
+iteration, I can go through just the pairs that have insertions, and create two
+entirely new pairs - `left + insertion` and `right + insertion`, with the same
+count as the original pair.
+
+But I should backtrack a little, because with this dictionary of pairs to counts,
+I still need to know how many of each element exists at the end. That's easy.
+The count of elements for the initial string, plus one for each insertion I do
+later.
+
+So there's two things I'm tracking in each iteration - newly created pairs, and
+which elements are inserted.
+
+Thus when we're all done, voila! A ready made count of all the elements, even if
+I actually have no notion of what the final polymer _actually_ looks like,
+because I haven't preserved order between pairs. That part was dissatisfying
+for me.
