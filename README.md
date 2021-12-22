@@ -385,3 +385,53 @@ Thus when we're all done, voila! A ready made count of all the elements, even if
 I actually have no notion of what the final polymer _actually_ looks like,
 because I haven't preserved order between pairs. That part was dissatisfying
 for me.
+
+## Day 15 Developer Log
+
+### First Star
+
+Well, I've never written a maze solver before. I'll have a go with my own
+thoughts and if (*sigh*, when) that doesn't work out, I'll look at the classical
+solutions.
+
+Recursively try adjacent cells that aren't already in the path that we've
+travelled, accumulating score. Prioritize cells that are in the positive
+direction, then prioritize lowest score - that should help us find the faster
+paths sooner.
+
+Once we've found any solution, we have a bound above which if any path scores,
+we can immediately discard it. As we find progressively better solutions, we
+can discard bad paths much more quickly.
+
+All written up and... well, it completes fast enough with the test data, but
+with the real maze, it will probably take near enough to forever. Maybe I can
+speed things up by seeding it with an initial "best-so-far" solution that just
+takes the fewest number of total steps (stair-step solution). Nope, no
+meaningful improvement.
+
+Taking a few days thinking about this. I'm probably wasting a lot of time trying
+and retrying parts of the map that play no part in the solution. So what if I
+built a second maze alongside the first - one that keeps my best-so-far cost to
+that cell. I can prioritize adjacent cells with the best-so-far cost and if I
+find a better path to it, it will get updated.
+
+Well, I've taken far more time than I would have hoped on this one. Let me take
+a look a Dijkstras, and I'll do that. Hmmm... some of these ideas look famliar,
+but a priority queue... Oh, rust has a binary heap that I can use for that
+purpose. Oh, neat - they demo the binary heap with a Dijkstra's. Not looking at
+the algorithm, though, just the usage.
+
+This is, in some ways, trickier than I would have thought. But it runs fast
+enough.
+
+### Second Star
+
+Oh, wow... construct a maze that's got 25x as many cells. I hope my solution
+is still fast enough.
+
+Tiling out the maze tricked me a bit. I thought "get the new score by adding in
+the sum of the x tile count and the y tile count, then mod 10". It took me
+awhile to figure out what I was doing wrong. No cell has a cost of 0. It's 
+`((new_cost + 1) % 9) - 1`.
+
+Well, plenty fast, and got it right first try.

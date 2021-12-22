@@ -1,7 +1,7 @@
 use anyhow::Result;
 
 use aoc2021::{
-    day1, day10, day11, day12, day13, day14, day2, day3, day4, day5, day6, day7, day8, day9,
+    day1, day10, day11, day12, day13, day14, day15, day2, day3, day4, day5, day6, day7, day8, day9,
 };
 
 fn main() -> Result<()> {
@@ -128,5 +128,15 @@ fn main() -> Result<()> {
 
     let star2_count = day14::star2(&polymer, &insertions);
     println!("[Star 2] Polymer score after 40 steps: {}", star2_count);
+
+    // Day 15
+    let data = day15::data(&data_dir);
+    let maze = day15::parse(data);
+    let star1_count = day15::star1(&maze);
+    println!("[Star 1] Maze risk score: {}", star1_count);
+
+    let star2_count = day15::star2(&maze);
+    println!("[Star 2] Maze risk score: {}", star2_count);
+
     Ok(())
 }
