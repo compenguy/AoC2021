@@ -1,7 +1,7 @@
 use anyhow::Result;
 
 use aoc2021::{
-    day1, day10, day11, day12, day13, day14, day15, day16, day2, day3, day4, day5, day6, day7,
+    day1, day10, day11, day12, day13, day14, day15, day16, day17, day2, day3, day4, day5, day6, day7,
     day8, day9,
 };
 
@@ -147,5 +147,15 @@ fn main() -> Result<()> {
 
     let star2_count = day16::star2(&message);
     println!("[Star 2] Calculation: {}", star2_count);
+
+    // Day 17
+    let data = day17::data(&data_dir);
+    let target = day17::parse(&data);
+    let star1_count = day17::star1(&target);
+    println!("[Star 1] Highest Y: {}", star1_count);
+
+    let star2_count = day17::star2(&target);
+    println!("[Star 2] Firing solutions: {}", star2_count);
+
     Ok(())
 }

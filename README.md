@@ -479,3 +479,45 @@ my actual solutions in release mode since the earlier days complete noticeably
 faster that way.
 
 Yep. That was it.
+
+## Day 17 Developer Log
+
+### First Star
+
+Very simple input data. I wasn't sure how I was going to go about doing the
+"optimization" problem of refining my inputs based on my outputs, so I started
+out just writing some helper functions for calculating distance and determining
+whether we've hit the target, missed the target, or still (potentially) on our
+way there.
+
+Then I wrote a bunch of unit tests to make sure I didn't mess up my signs, or
+flip the upper and lower limits of the range when calculating how far from the
+target range I am.
+
+While still hoping I'd build some intuition about refining the inputs based on
+the outputs, I went ahead and wrote a brute-force
+'try-every-combination-of-dx-and-dy` solver. It worked for the tests. So I went
+ahead and tried it with the real data. It gave me a solution, quickly, but it
+wasn't the right one. So I expanded the range by a factor of 10, and it gave me
+a solution, quickly. And it was the right one this time.
+
+Two important notes:
+
+One, I spent a lot of time futzing around trying to make
+my state tracker for the system into an iterator. Making it into an iterator
+was super easy. Making it into a non-consuming iterator, without creating a
+whole new encapsulating type, was less so.
+
+Two, my frustration with the intuition I was hoping to build about arriving at
+a solution more elegantly was that it wouldn't be pretty account for the fact
+that an initial value could result in the shot skipping over the target. I had
+been planning on making a feedback loop that would refine the inputs based on
+how close/far from the target the starting value got. There's just a lot of
+refinements and tweaks that would need to go into it to make it useful. I
+suppose maybe a PID control loop could work.
+
+### Second Star
+
+This fell out almost automatically from my solution for the first part. In
+addition to checking whether I've reached a new max_y every time I land a hit,
+I also increment a counter.
