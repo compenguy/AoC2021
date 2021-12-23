@@ -296,35 +296,35 @@ mod tests {
 
     #[test]
     fn test_star2() {
-        println!("\n==== Test A ====");
+        //println!("\n==== Test A ====");
         let data = parse(SAMPLE_DATA_A.0.iter().map(|r| r.to_string()));
         assert_eq!(star2(&data), SAMPLE_DATA_A.1);
 
-        println!("\n==== Test B ====");
+        //println!("\n==== Test B ====");
         let data = parse(SAMPLE_DATA_B.0.iter().map(|r| r.to_string()));
         assert_eq!(star2(&data), SAMPLE_DATA_B.1);
 
-        println!("\n==== Test C ====");
+        //println!("\n==== Test C ====");
         let data = parse(SAMPLE_DATA_C.0.iter().map(|r| r.to_string()));
         assert_eq!(star2(&data), SAMPLE_DATA_C.1);
 
-        println!("\n==== Test D ====");
+        //println!("\n==== Test D ====");
         let data = parse(SAMPLE_DATA_D.0.iter().map(|r| r.to_string()));
         assert_eq!(star2(&data), SAMPLE_DATA_D.1);
 
-        println!("\n==== Test E ====");
+        //println!("\n==== Test E ====");
         let data = parse(SAMPLE_DATA_E.0.iter().map(|r| r.to_string()));
         assert_eq!(star2(&data), SAMPLE_DATA_E.1);
 
-        println!("\n==== Test F ====");
+        //println!("\n==== Test F ====");
         let data = parse(SAMPLE_DATA_F.0.iter().map(|r| r.to_string()));
         assert_eq!(star2(&data), SAMPLE_DATA_F.1);
 
-        println!("\n==== Test G ====");
+        //println!("\n==== Test G ====");
         let data = parse(SAMPLE_DATA_G.0.iter().map(|r| r.to_string()));
         assert_eq!(star2(&data), SAMPLE_DATA_G.1);
 
-        println!("\n==== Test H ====");
+        //println!("\n==== Test H ====");
         let data = parse(SAMPLE_DATA_H.0.iter().map(|r| r.to_string()));
         assert_eq!(star2(&data), SAMPLE_DATA_H.1);
     }
