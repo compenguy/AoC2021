@@ -10,6 +10,7 @@ repository = "https://github.com/compenguy/AoC2021"
 
 [dependencies]
 anyhow = "1"
+bitvec = "0.22"
 
 [dev-dependencies]
 criterion = { version = "0.3", features = ["html_reports"] }

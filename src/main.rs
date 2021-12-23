@@ -1,7 +1,8 @@
 use anyhow::Result;
 
 use aoc2021::{
-    day1, day10, day11, day12, day13, day14, day15, day2, day3, day4, day5, day6, day7, day8, day9,
+    day1, day10, day11, day12, day13, day14, day15, day16, day2, day3, day4, day5, day6, day7,
+    day8, day9,
 };
 
 fn main() -> Result<()> {
@@ -138,5 +139,13 @@ fn main() -> Result<()> {
     let star2_count = day15::star2(&maze);
     println!("[Star 2] Maze risk score: {}", star2_count);
 
+    // Day 16
+    let data = day16::data(&data_dir);
+    let message = day16::parse(data);
+    let star1_count = day16::star1(&message);
+    println!("[Star 1] Version sum: {}", star1_count);
+
+    let star2_count = day16::star2(&message);
+    println!("[Star 2] Calculation: {}", star2_count);
     Ok(())
 }

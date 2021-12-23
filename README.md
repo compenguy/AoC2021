@@ -435,3 +435,47 @@ awhile to figure out what I was doing wrong. No cell has a cost of 0. It's
 `((new_cost + 1) % 9) - 1`.
 
 Well, plenty fast, and got it right first try.
+
+## Day 16 Developer Log
+
+### First Star
+
+This one was kinda fun. I knew where things would be going on the second start,
+but I kept things simple, didn't want to overcomplicate things too early on.
+
+So my enum of Symbol types was limited to just `Literal(u32)` and
+`Operator(type_id, operands)`. Notice the type I used in the Literal - that
+will be important later.
+
+Otherwise, ho hum.
+
+Well, ok. One little hiccup. The `bitvec` crate I'm using was producing funky
+results when converting bit ranges to numeric types if they straddled a byte
+boundary. At first I thought I'd misunderstood the use of `Msb0` vs `Lsb0`, but
+that definitely was not the case. It turns out that I have to be explicit to
+preserve the natural byte order - `load_be()` instead of `load()`.
+
+### Second Star
+
+Yep. I'd have made more `Symbol::Operator` types earlier, except I didn't know
+what any of them were yet ;). So, expand my types, and rust iterator combinators
+make the sum, product, min, and max super easy. Change things up just a little
+for the two-operand `Gt`, `Lt`, and `Eq`. Easy peasy. Pass the tests first try,
+run the solution, get an answer quickly, no errors and... wait a minute. What?
+
+Ok, dumping my `eval()` statements as they happen. Everything looks good. This
+doesn't make much sense, and there's quite a haystack for the needle that I'm
+hunting. So I decided to hit up `r/adventofcode`.
+
+This looks promising:
+
+> [Day 16 Part 2] If your test samples work but your puzzle input doesn't, read this
+
+> If all your operations seem to be working correctly, Look at your Type 4 values. A big clue for me (coding in TypeScript) was that I had Type 4 packets with negative numbers.
+
+Hmmm, not seeing exactly _that_, but that's a pretty big hint. The literals can
+exceed u32. Pretty sure rust would have caught that for me if I weren't running
+my actual solutions in release mode since the earlier days complete noticeably
+faster that way.
+
+Yep. That was it.
