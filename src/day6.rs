@@ -104,7 +104,7 @@ mod tests {
         for _ in 5..=18 {
             pond.tick();
         }
-        println!("After 18 days: {:?}", pond.remaining());
+        //println!("After 18 days: {:?}", pond.remaining());
         assert_eq!(pond.count(), 26, "after 18 days");
         for _ in 19..=80 {
             pond.tick();
