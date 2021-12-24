@@ -521,3 +521,14 @@ suppose maybe a PID control loop could work.
 This fell out almost automatically from my solution for the first part. In
 addition to checking whether I've reached a new max_y every time I land a hit,
 I also increment a counter.
+
+## Day 18 Developer Log
+
+### First Star
+
+This one was more tedious than hard. I struggled a bit with getting the rust
+syntax right for the traits I was implementing for Add and Sum.
+
+### Second Star
+
+Trivial elaboration on the first step.
