@@ -1,5 +1,5 @@
-use std::ops::RangeInclusive;
 use std::io::BufRead;
+use std::ops::RangeInclusive;
 
 const DATA_FILE: &str = "17.txt";
 
@@ -11,9 +11,22 @@ pub fn data<P: AsRef<std::path::Path>>(data_dir: P) -> String {
 
 pub fn parse(data: &str) -> (RangeInclusive<isize>, RangeInclusive<isize>) {
     let ranges = data.strip_prefix("target area: ").unwrap();
-    let (x_range_str, y_range_str) = ranges.split_once(", ").map(|(x, y)| (x.to_string(), (y.to_string()))).unwrap();
-    let (x_lower, x_upper) = x_range_str.strip_prefix("x=").unwrap().split_once("..").map(|(l, u)| (l.parse::<isize>().unwrap(), u.parse::<isize>().unwrap())).unwrap();
-    let (y_lower, y_upper) = y_range_str.strip_prefix("y=").unwrap().split_once("..").map(|(l, u)| (l.parse::<isize>().unwrap(), u.parse::<isize>().unwrap())).unwrap();
+    let (x_range_str, y_range_str) = ranges
+        .split_once(", ")
+        .map(|(x, y)| (x.to_string(), (y.to_string())))
+        .unwrap();
+    let (x_lower, x_upper) = x_range_str
+        .strip_prefix("x=")
+        .unwrap()
+        .split_once("..")
+        .map(|(l, u)| (l.parse::<isize>().unwrap(), u.parse::<isize>().unwrap()))
+        .unwrap();
+    let (y_lower, y_upper) = y_range_str
+        .strip_prefix("y=")
+        .unwrap()
+        .split_once("..")
+        .map(|(l, u)| (l.parse::<isize>().unwrap(), u.parse::<isize>().unwrap()))
+        .unwrap();
 
     // Handle negative ranges properly - rust ranges don't radiate from 0,
     // they're always from strictly lower to strictly greater
@@ -46,10 +59,7 @@ enum Outcome {
 
 impl Outcome {
     fn in_flight(&self) -> bool {
-        match self {
-            Outcome::InFlight(_, _) => true,
-            _ => false,
-        }
+        matches!(self, Outcome::InFlight(_, _))
     }
 }
 
@@ -66,7 +76,12 @@ struct War {
 }
 
 impl War {
-    fn start(dx: isize, dy: isize, x_range: RangeInclusive<isize>, y_range: RangeInclusive<isize>) -> Self {
+    fn start(
+        dx: isize,
+        dy: isize,
+        x_range: RangeInclusive<isize>,
+        y_range: RangeInclusive<isize>,
+    ) -> Self {
         Self {
             x: 0,
             y: 0,
@@ -98,11 +113,15 @@ impl War {
         } else if x_dist > 0 {
             // dx can never be negative, so if the shot position is higher than the target x upper limit,
             // we've overshot
-            //println!("X overshoot");
+            if cfg!(debug_assertions) {
+                println!("X overshoot");
+            }
             Outcome::Miss(x_dist, y_dist)
         } else if x_dist < 0 && self.dx == 0 {
             // X will make no more progress, and it's short of the target
-            //println!("X undershoot");
+            if cfg!(debug_assertions) {
+                println!("X undershoot");
+            }
             Outcome::Miss(x_dist, y_dist)
         } else if y_dist < 0 && self.dy < 0 {
             // dy will always eventually flip from positive to negative, so if y is lower than the lower
@@ -122,7 +141,7 @@ impl War {
         let outcome = self.sighting();
         self.finished = !outcome.in_flight();
 
-        self.dx = if self.dx - 1 < 0 { 0 } else { self.dx -1 };
+        self.dx = if self.dx - 1 < 0 { 0 } else { self.dx - 1 };
         self.dy -= 1;
 
         outcome
@@ -133,7 +152,10 @@ impl War {
     }
 }
 
-fn its_war_then(x_range: &RangeInclusive<isize>, y_range: &RangeInclusive<isize>) -> (isize, usize) {
+fn its_war_then(
+    x_range: &RangeInclusive<isize>,
+    y_range: &RangeInclusive<isize>,
+) -> (isize, usize) {
     let mut max_y = std::isize::MIN;
     let mut firing_solutions: usize = 0;
 
@@ -148,7 +170,7 @@ fn its_war_then(x_range: &RangeInclusive<isize>, y_range: &RangeInclusive<isize>
                 outcome = war.step();
             }
             //println!("\t{:?} => {:?}", &war, &outcome);
-            if let Outcome::Miss(dist_x, dist_y) = outcome {
+            if let Outcome::Miss(_dist_x, _dist_y) = outcome {
                 //println!("Missed it by [{}, {}] that much", dist_x, dist_y);
             } else {
                 firing_solutions += 1;
@@ -184,8 +206,8 @@ mod tests {
 
         assert_eq!(target_distance(50, &(-100isize..=-10)), 60);
         assert_eq!(target_distance(10, &(-100isize..=-10)), 20);
-        assert_eq!(target_distance(5,  &(-100isize..=-10)), 15);
-        assert_eq!(target_distance(5,  &(-20isize..=-10)), 15);
+        assert_eq!(target_distance(5, &(-100isize..=-10)), 15);
+        assert_eq!(target_distance(5, &(-20isize..=-10)), 15);
         assert_eq!(target_distance(-5, &(-20isize..=-10)), 5);
         assert_eq!(target_distance(-10, &(-20isize..=-10)), 0);
         assert_eq!(target_distance(-20, &(-20isize..=-10)), 0);
@@ -217,13 +239,12 @@ mod tests {
         assert_eq!(war.step(), Outcome::Kaboom, "war: {:?}", war);
     }
 
-    const SAMPLE_DATA: [(&'static str, isize); 1] = [
-        ("target area: x=20..30, y=-10..-5", 45, 112)
-    ];
+    const SAMPLE_DATA: [(&'static str, isize, usize); 1] =
+        [("target area: x=20..30, y=-10..-5", 45, 112)];
 
     #[test]
     fn test_star1() {
-        for (i, (input, output, _)) in SAMPLE_DATA.iter().enumerate() {
+        for (_i, (input, output, _)) in SAMPLE_DATA.iter().enumerate() {
             let data = parse(input);
             assert_eq!(star1(&data), *output);
         }
@@ -231,9 +252,9 @@ mod tests {
 
     #[test]
     fn test_star2() {
-        for (i, (input, _, output)) in SAMPLE_DATA.iter().enumerate() {
+        for (_i, (input, _, output)) in SAMPLE_DATA.iter().enumerate() {
             let data = parse(input);
-            assert_eq!(star1(&data), *output);
+            assert_eq!(star2(&data), *output);
         }
     }
 }
